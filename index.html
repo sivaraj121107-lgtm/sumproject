@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Productivity Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background blobs for glassmorphism depth -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <div class="app-wrapper">
+
+    <!-- ── HEADER ── -->
+    <header class="glass-card header">
+      <div class="header-left">
+        <h1 class="app-title">&#x1F4CB; Productivity Planner</h1>
+        <p class="app-subtitle">Stay focused. Stay productive.</p>
+      </div>
+      <div class="header-right">
+        <div class="clock-block">
+          <span id="live-time" class="live-time">00:00:00</span>
+          <span id="live-date" class="live-date">Monday, 1 January 2025</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── PROGRESS SECTION ── -->
+    <section class="glass-card progress-section">
+      <div class="progress-info">
+        <span class="progress-label">Daily Progress</span>
+        <span id="progress-text" class="progress-text">0 / 0 tasks completed</span>
+      </div>
+      <div class="progress-bar-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Task completion progress">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+      <span id="progress-percent" class="progress-percent">0%</span>
+    </section>
+
+    <!-- ── ADD TASK FORM ── -->
+    <section class="glass-card add-task-section">
+      <h2 class="section-title">Add New Task</h2>
+      <form id="task-form" class="task-form" novalidate>
+        <div class="form-row">
+          <div class="form-group grow">
+            <label for="task-input" class="sr-only">Task description</label>
+            <input
+              type="text"
+              id="task-input"
+              class="form-control"
+              placeholder="What do you need to do today?"
+              maxlength="120"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="priority-select" class="sr-only">Priority</label>
+            <select id="priority-select" class="form-control select-control">
+              <option value="high">🔴 High</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="low">🟢 Low</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="due-date" class="sr-only">Due date</label>
+            <input type="date" id="due-date" class="form-control" />
+          </div>
+        </div>
+        <div id="form-error" class="form-error" role="alert" aria-live="polite"></div>
+        <button type="submit" class="btn btn-primary">
+          <span class="btn-icon">+</span> Add Task
+        </button>
+      </form>
+    </section>
+
+    <!-- ── FILTERS & STATS ── -->
+    <section class="controls-section">
+      <div class="filter-group" role="group" aria-label="Filter tasks">
+        <span class="filter-label">Filter:</span>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="active">Active</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+        <button class="filter-btn priority-btn" data-filter="high">🔴 High</button>
+        <button class="filter-btn priority-btn" data-filter="medium">🟡 Medium</button>
+        <button class="filter-btn priority-btn" data-filter="low">🟢 Low</button>
+      </div>
+      <div class="action-group">
+        <button id="clear-completed-btn" class="btn btn-ghost btn-sm">Clear Completed</button>
+        <button id="clear-all-btn" class="btn btn-danger btn-sm">Clear All</button>
+      </div>
+    </section>
+
+    <!-- ── TASK LIST ── -->
+    <section class="glass-card task-list-section">
+      <ul id="task-list" class="task-list" aria-label="Task list" aria-live="polite">
+        <!-- Tasks injected by JS -->
+      </ul>
+      <div id="empty-state" class="empty-state" hidden>
+        <span class="empty-icon">✅</span>
+        <p>No tasks here. Add one above!</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ── EDIT MODAL ── -->
+  <div id="edit-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal glass-card">
+      <h2 id="modal-title" class="section-title">Edit Task</h2>
+      <form id="edit-form" novalidate>
+        <div class="form-group">
+          <label for="edit-task-input" class="form-label">Task</label>
+          <input type="text" id="edit-task-input" class="form-control" maxlength="120" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group grow">
+            <label for="edit-priority-select" class="form-label">Priority</label>
+            <select id="edit-priority-select" class="form-control select-control">
+              <option value="high">🔴 High</option>
+              <option value="medium">🟡 Medium</option>
+              <option value="low">🟢 Low</option>
+            </select>
+          </div>
+          <div class="form-group grow">
+            <label for="edit-due-date" class="form-label">Due Date</label>
+            <input type="date" id="edit-due-date" class="form-control" />
+          </div>
+        </div>
+        <div id="edit-form-error" class="form-error" role="alert" aria-live="polite"></div>
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" id="modal-cancel-btn" class="btn btn-ghost">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
